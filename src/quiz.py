@@ -32,12 +32,12 @@ class Quiz:
         question_func = np.random.choice(question_types)
         return question_func(filter_data)
 
-    def question_year(self):
+    def question_year(self, data):
         """
             Generates a question asking for the release year of a randomly chosen movie.
         """
         # Choose a random movie and select, from the df, the title and year of the movie
-        question_row = self.data.sample(1).iloc[0]
+        question_row = data.sample(1).iloc[0]
         primary_title = question_row['primaryTitle']
         start_year = question_row['startYear']
 
@@ -58,12 +58,12 @@ class Quiz:
         
         return question, options, correct_answer
 
-    def question_director(self):
+    def question_director(self, data):
         """
             Generates a question asking who directed a randomly chosen movie.
         """
         # Filter the data to include only rows where the person is a director
-        director_data = self.data[self.data['category'] == 'director']
+        director_data = data[data['category'] == 'director']
         
         # Choose a random movie and select the title and the name of the director
         question_row = director_data.sample(1).iloc[0]
@@ -78,7 +78,7 @@ class Quiz:
         options = set()
         options.add(correct_answer)
         while len(options) < 4:
-            random_director = np.random.choice(self.data['primaryName'].unique())
+            random_director = np.random.choice(director_data['primaryName'].unique())
             options.add(random_director)
         
         # Convert the set option to a list and shuffle it
