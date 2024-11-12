@@ -10,10 +10,17 @@ class Quiz:
     def __init__(self, data):
         self.data = data
   
-    def generate_question(self):
+    def generate_question(self, difficulty='easy'):
         """
-            Selecting a random question type from a list.
+            Generates a random quiz question based on the specified difficulty level.
         """
+        if difficulty == 'easy':
+            filter_data = self.data[self.data['averageRating'] >= 7.5]
+        elif difficulty == 'medium':
+            filter_data = self.data[(self.data['averageRating'] >= 4.5) & (self.data['averageRating'] < 7.5)]
+        else:
+            filter_data = self.data[self.data['averageRating'] < 4.5]
+        
         # Create a list of question type
         question_types = [
             self.question_year,
@@ -23,7 +30,7 @@ class Quiz:
         
         # Select a random question type and call it
         question_func = np.random.choice(question_types)
-        return question_func()
+        return question_func(filter_data)
 
     def question_year(self):
         """
