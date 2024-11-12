@@ -30,4 +30,10 @@ class Quiz:
             random_year = np.random.choice(range(1894, 2024))
             options.add(random_year)
         
-        return question, list(options), correct_answer
+        # convert the set option to a list and shuffle it
+        options = list(options)
+        np.random.shuffle(options)
+        
+        return question, options, correct_answer
+
+        
