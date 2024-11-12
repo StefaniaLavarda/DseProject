@@ -10,12 +10,26 @@ class Quiz:
     def __init__(self, data):
         self.data = data
   
-    def question_year(self,data):
+    def generate_question(self):
+        """
+            Selecting a random question type from a list.
+        """
+        # Create a list of question type
+        question_types = [
+            self.question_year,
+            self.question_director,
+        ]
+        
+        # Select a random question type and call it
+        question_func = np.random.choice(question_types)
+        return question_func()
+
+    def question_year(self):
         """
             Generates a question asking for the release year of a randomly chosen movie.
         """
         # Choose a random movie and select, from the df, the title and year of the movie
-        question_row = data.sample(1).iloc[0]
+        question_row = self.data.sample(1).iloc[0]
         primary_title = question_row['primaryTitle']
         start_year = question_row['startYear']
 
@@ -36,12 +50,12 @@ class Quiz:
         
         return question, options, correct_answer
 
-    def question_director(self, data):
+    def question_director(self):
         """
             Generates a question asking who directed a randomly chosen movie.
         """
         # Filter the data to include only rows where the person is a director
-        director_data = data[data['category'] == 'director']
+        director_data = self.data[self.data['category'] == 'director']
         
         # Choose a random movie and select the title and the name of the director
         question_row = director_data.sample(1).iloc[0]
