@@ -40,11 +40,15 @@ class Quiz:
         """
             Generates a question asking who directed a randomly chosen movie.
         """
-        # choose a random movie and select the title and the name of the director
-        question_row = data.sample(1).iloc[0]
+        # Filter the data to include only rows where the person is a director
+        director_data = data[data['category'] == 'director']
+        
+        # Choose a random movie and select the title and the name of the director
+        question_row = director_data.sample(1).iloc[0]
         primary_title = question_row['primaryTitle']
         director_name = question_row['primaryName']
 
+        # Create the question string using the selected movie's title
         question = f"Who is the director of the movie '{primary_title}'?"
         correct_answer = director_name
         
@@ -52,9 +56,10 @@ class Quiz:
         options = set()
         options.add(correct_answer)
         while len(options) < 4:
-            random_director = np.random.choice(data['primaryName'].unique())
+            random_director = np.random.choice(self.data['primaryName'].unique())
             options.add(random_director)
         
+        # Convert the set option to a list and shuffle it
         options = list(options)
         np.random.shuffle(options)
         
