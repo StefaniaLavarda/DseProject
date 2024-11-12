@@ -15,12 +15,12 @@ class Quiz:
             Generates a question asking for the release year of a randomly chosen movie.
         """
         # choose a random movie and select, from the df, the title and year of the movie
-        question_row = data.sample(1)
-        primary_title = question_row['primaryTitle'].value[0]
-        start_year = question_row['startYear'].value[0]
+        question_row = data.sample(1).iloc[0]
+        primary_title = question_row['primaryTitle']
+        start_year = question_row['startYear']
 
         # create the question string using the selected movie's title
-        question = f"What year was the movie {primary_title} released?"
+        question = f"What year was the movie '{primary_title}' released?"
         correct_answer = start_year
        
         # generate multiple choices options
