@@ -18,6 +18,7 @@ class Quiz:
         question_types = [
             self.question_year,
             self.question_director,
+            self.question_actor
         ]
         
         # Select a random question type and call it
@@ -72,6 +73,34 @@ class Quiz:
         while len(options) < 4:
             random_director = np.random.choice(self.data['primaryName'].unique())
             options.add(random_director)
+        
+        # Convert the set option to a list and shuffle it
+        options = list(options)
+        np.random.shuffle(options)
+        
+        return question, options, correct_answer
+    
+    def question_actor(self, data):
+        """
+            Generates a question asking who starred in a randomly chosen movie.
+        """
+        # Filter the data to include only rows where the person is an actor/actress
+        actor_data = data[data['category'].isin(['actor', 'actress'])]
+        
+        # Choose a random movie and select the title and the name of the actor/actress
+        question_row = actor_data.sample(1).iloc[0]
+        primary_title = question_row['primaryTitle']
+        actor_name = question_row['primaryName']
+
+        question = f"Who is one of the main actors in the movie '{primary_title}'?"
+        correct_answer = actor_name
+        
+        # Generate multiple choices options
+        options = set()
+        options.add(correct_answer)
+        while len(options) < 4:
+            random_actor = np.random.choice(actor_data['primaryName'].unique())
+            options.add(random_actor)
         
         # Convert the set option to a list and shuffle it
         options = list(options)
