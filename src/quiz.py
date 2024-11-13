@@ -1,4 +1,4 @@
-# src/quiz.py
+""" src/quiz.py """
 
 import numpy as np
 
@@ -32,6 +32,26 @@ class Quiz:
         question_func = np.random.choice(question_types)
         return question_func(filter_data)
 
+    def max_score(self, num_questions=10):
+        """
+        Calculate the maximum possible score based on random difficulty distribution
+        across the 10 questions.
+        """
+        # point for each difficulty level
+        difficulty_points = {
+            'easy': 1,
+            'medium': 2,
+            'hard': 3
+        }
+        
+        # Randomly assign difficulties to the questions
+        difficulties = np.random.choice(['easy', 'medium', 'hard'], size=num_questions)
+        
+        # Calculate the total max score by summing up the points for each difficulty
+        max_score = sum(difficulty_points[difficulty] for difficulty in difficulties)
+        
+        return max_score
+    
     def question_year(self, data):
         """
             Generates a question asking for the release year of a randomly chosen movie.
@@ -108,7 +128,7 @@ class Quiz:
         while len(options) < 4:
             random_actor = np.random.choice(actor_data['primaryName'].unique())
             options.add(random_actor)
-        
+       
         # Convert the set option to a list and shuffle it
         options = list(options)
         np.random.shuffle(options)
