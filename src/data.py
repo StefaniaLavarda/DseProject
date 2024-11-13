@@ -4,7 +4,7 @@ import os
 import pandas as pd
 
 class MoviesData:
-    """" A class for managing and importing movie data from a CSV file.
+    """ A class for managing and importing movie data from a CSV file.
 
     Parameters:
     ----------
