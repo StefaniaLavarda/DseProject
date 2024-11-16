@@ -51,6 +51,7 @@ if 'questions' not in st.session_state:
 questions = st.session_state.questions
 correct_answers = st.session_state.correct_answers
 user_answers = st.session_state.user_answers
+difficulties = st.session_state.difficulties
 
 # Initialize a counter for the question number
 question_number = 1
@@ -66,4 +67,22 @@ for question_number, (question, options) in enumerate(questions, 1):
     # Save the user's answer
     user_answers[question_number - 1] = user_answer
 
+# Add a button to submit answers and calculate the score
+if st.button("Submit Answers"):
+    score = 0
+    total_correct_answers = 0
+    correct_answers_by_difficulty = {'easy': 0, 'medium': 0, 'hard': 0}
+   
+    for i in range(10):
+        if user_answers[i] == correct_answers[i]:
+            score += score_by_difficulty[difficulties[i]]
+            total_correct_answers += 1
+            correct_answers_by_difficulty[difficulties[i]] += 1
+   
+    # Calculate the maximum score
+    max_score = quiz.max_score(num_questions=10)
 
+    # Display results
+    st.success(f'Your final score is: {score} out of {max_score}.', icon="✅")
+    st.info(f"You answered {total_correct_answers} out of 10 questions correctly.")
+    st.write("Correct answers by difficulty:")
