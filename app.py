@@ -27,8 +27,9 @@ st.write("Answer 10 multiple-choice questions about movies. Choose the correct o
 questions = []
 answers = []
 correct_answers = []
-difficulty = []
+difficulties = []
 
+# Generate 10 quiz questions
 for i in range(10):
     # Randomly select a difficulty level
     level_of_difficulty = np.random.choice(['easy', 'medium', 'hard'])
@@ -37,5 +38,18 @@ for i in range(10):
     # Append question, options, correct answer and level of difficulty
     questions.append((question, options))
     correct_answers.append(correct_answer)
-    difficulty.append(level_of_difficulty)
+    difficulties.append(level_of_difficulty)
+
+# Initialize a counter for the question number
+question_number = 1
+
+# Display each question with options
+for question, options in questions:
+    st.subheader(f"Question {question_number}: {question}")
+    user_answer = st.radio(f"Select your answer for Question {question_number}:", options,)
+    
+    # Increment the counter for the next question
+    question_number += 1 
+
+ 
 
