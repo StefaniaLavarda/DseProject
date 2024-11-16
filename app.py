@@ -23,39 +23,47 @@ st.title("Movie Quiz Game 🎞️")
 # Instructions
 st.write("Answer 10 multiple-choice questions about movies. Choose the correct option!")
 
-# Generate 10 quiz questions
-questions = []
-answers = []
-correct_answers = []
-difficulties = []
-
-# Generate 10 quiz questions
-for i in range(10):
-    # Randomly select a difficulty level
-    level_of_difficulty = np.random.choice(['easy', 'medium', 'hard'])
-    question, options, correct_answer = quiz.generate_question(difficulty=level_of_difficulty)
+if 'questions' not in st.session_state:
+    questions = []
+    correct_answers = []
+    difficulties = []
     
-    # Append question, options, correct answer and level of difficulty
-    questions.append((question, options))
-    correct_answers.append(correct_answer)
-    difficulties.append(level_of_difficulty)
-
-# List to collect user answers
-user_answers = []
+    # Generate 10 quiz questions
+    for i in range(10):
+        # Randomly select a difficulty level
+        level_of_difficulty = np.random.choice(['easy', 'medium', 'hard'])
+        question, options, correct_answer = quiz.generate_question(difficulty=level_of_difficulty)
+        
+        # Append question, options, correct answer and level of difficulty
+        questions.append((question, options))
+        correct_answers.append(correct_answer)
+        difficulties.append(level_of_difficulty)
+    
+    # # Save the questions and answers in session state
+    st.session_state.questions = questions
+    st.session_state.correct_answers = correct_answers
+    st.session_state.difficulties = difficulties
+    
+    # Initialize empty answers for each question
+    st.session_state.user_answers = [''] * 10
+   
+# Use the questions and answers stored in session state
+questions = st.session_state.questions
+correct_answers = st.session_state.correct_answers
+user_answers = st.session_state.user_answers
 
 # Initialize a counter for the question number
 question_number = 1
 
 # Display each question with options
-for question, options in questions:
+for question_number, (question, options) in enumerate(questions, 1):
     st.subheader(f"Question {question_number}: {question}")
-    user_answer = st.radio(
-        f"Select your answer for Question {question_number}:", 
-        options,
-    )
-    user_answers.append(user_answer)
     
-    # Increment the counter for the next question
-    question_number += 1 
+    # Get the user's answer
+    user_answer = st.radio(
+        f"Select your answer for Question {question_number}:", options)
+    
+    # Save the user's answer
+    user_answers[question_number - 1] = user_answer
 
 
