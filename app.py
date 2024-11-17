@@ -44,6 +44,7 @@ if 'questions' not in st.session_state:
     st.session_state.questions = questions
     st.session_state.correct_answers = correct_answers
     st.session_state.difficulties = difficulties
+    st.session_state.quiz_completed = False
     
     # Initialize empty answers for each question
     st.session_state.user_answers = [''] * 10
@@ -98,5 +99,16 @@ if st.button("Submit Answers"):
     ax.set_title("Correct Answers by Difficulty Level")
     ax.set_xlabel("Difficulty Level")
     ax.set_ylabel("Number of Correct Answers")
+    ax.set_ylim(0, 10)
+    ax.set_yticks(range(0, 11)) 
 
     st.pyplot(fig)
+    
+    # Mark quiz as completed
+    st.session_state.quiz_completed = True
+
+# Show the "Play Again" button only if the quiz is completed
+if st.session_state.quiz_completed:
+    if st.button("Play Again"):
+        st.session_state.clear()  # Reset the session state
+        st.rerun()  # Rerun the app to start a new quiz
