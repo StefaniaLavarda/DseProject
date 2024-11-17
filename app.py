@@ -2,6 +2,7 @@
 
 import streamlit as st
 import numpy as np
+import matplotlib.pyplot as plt
 
 from src.data import MoviesData
 from src.quiz import Quiz
@@ -85,4 +86,17 @@ if st.button("Submit Answers"):
     # Display results
     st.success(f'Your final score is: {score} out of {max_score}.', icon="✅")
     st.info(f"You answered {total_correct_answers} out of 10 questions correctly.")
-    st.write("Correct answers by difficulty:")
+    
+    # Create a bar chart for correct answers by difficulty
+    difficulty_levels = ['Easy', 'Medium', 'Hard']
+    correct_counts = [correct_answers_by_difficulty['easy'], 
+                  correct_answers_by_difficulty['medium'], 
+                  correct_answers_by_difficulty['hard']]
+
+    fig, ax = plt.subplots()
+    ax.bar(difficulty_levels, correct_counts, color=['green', 'orange', 'red'])
+    ax.set_title("Correct Answers by Difficulty Level")
+    ax.set_xlabel("Difficulty Level")
+    ax.set_ylabel("Number of Correct Answers")
+
+    st.pyplot(fig)
