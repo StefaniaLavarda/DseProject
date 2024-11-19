@@ -19,6 +19,14 @@ quiz = Quiz(movies_df)
 # Define scoring rules for each difficulty level
 score_by_difficulty = {'easy': 1, 'medium': 2, 'hard': 3}
 
+if 'stop_playing' not in st.session_state:
+    st.session_state.stop_playing = False
+
+# If the user decided to stop playing, display a thank-you message and exit
+if st.session_state.stop_playing:
+    st.title("Thank you for playing! 😎")
+    st.stop()  # Stop the execution of the app
+
 # Streamlit app title and instructions
 st.title("Movie Quiz Game 🎞️")
 st.write("Answer 10 multiple-choice questions about movies. Choose the correct option!")
@@ -123,6 +131,9 @@ if st.button("Submit Answers"):
 
 # Show the "Play Again" button after the quiz is completed
 if st.session_state.quiz_completed:
-    if st.button("Play Again"):
+    if st.button("Play again"):
         st.session_state.clear()  # Reset session state variables
         st.rerun()  # Rerun the app to start a new quiz
+    if st.button("Don't play again"):
+        st.session_state.stop_playing = True
+        st.rerun()  # Rerun the app to display the thank-you message
