@@ -32,10 +32,9 @@ class Quiz:
         question_func = np.random.choice(question_types)
         return question_func(filter_data)
 
-    def max_score(self, num_questions=10):
+    def max_score(self, difficulties):
         """
-        Calculate the maximum possible score based on random difficulty distribution
-        across the 10 questions.
+        Calculate the maximum possible score based on the given difficulties.
         """
         # point for each difficulty level
         difficulty_points = {
@@ -43,13 +42,8 @@ class Quiz:
             'medium': 2,
             'hard': 3
         }
-        
-        # Randomly assign difficulties to the questions
-        difficulties = np.random.choice(['easy', 'medium', 'hard'], size=num_questions)
-        
         # Calculate the total max score by summing up the points for each difficulty
         max_score = sum(difficulty_points[difficulty] for difficulty in difficulties)
-        
         return max_score
     
     def question_year(self, data):
