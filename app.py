@@ -103,7 +103,7 @@ if st.button("Submit Answers"):
             st.markdown(f"- **The correct answer was:** {correct_answer}")
    
     # Calculate the maximum possible score
-    max_score = quiz.max_score(num_questions=10)
+    max_score = quiz.max_score(difficulties)
 
     # Display the final score and summary
     st.success(f'Your final score is: {score} out of {max_score}.')
