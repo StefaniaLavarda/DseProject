@@ -24,7 +24,7 @@ if 'stop_playing' not in st.session_state:
 
 # If the user decided to stop playing, display a thank-you message and exit
 if st.session_state.stop_playing:
-    st.title("Thank you for playing! 😎")
+    st.title("Thank you for playing! 😄")
     st.stop()  # Stop the execution of the app
 
 # Streamlit app title and instructions
@@ -122,9 +122,9 @@ if st.button("Submit Answers"):
 
     fig, ax = plt.subplots()
     ax.bar(difficulty_levels, correct_counts, color=['green', 'orange', 'red'])
-    ax.set_title("Correct Answers by Difficulty Level")
-    ax.set_xlabel("Difficulty Level")
-    ax.set_ylabel("Number of Correct Answers")
+    ax.set_title("Correct Answers by Difficulty Level", fontsize=16, fontweight='bold', pad=20)
+    ax.set_xlabel("Difficulty Level", fontsize=12, labelpad=20)
+    ax.set_ylabel("Number of Correct Answers", fontsize=12, labelpad=20)
     ax.set_ylim(0, 10)
     ax.set_yticks(range(0, 11))
     
