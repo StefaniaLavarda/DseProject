@@ -103,11 +103,16 @@ if st.button("Submit Answers"):
             st.markdown(f"- **The correct answer was:** {correct_answer}")
    
     # Calculate the maximum possible score
-    max_score = quiz.max_score(difficulties)
+    ideal_scores = np.array([score_by_difficulty[difficulty] for difficulty in difficulties])
+    max_score = np.sum(ideal_scores)
+    
+    # Calculate percentage of correct answers
+    correct_percentage = np.round((total_correct_answers / 10) * 100, 2)
 
     # Display the final score and summary
     st.success(f'Your final score is: {score} out of {max_score}.')
     st.info(f"You answered {total_correct_answers} out of 10 questions correctly.")
+    st.info(f"That's {correct_percentage}% correct answers!")
     
     # Generate a bar chart for correct answers by difficulty
     difficulty_levels = ['Easy', 'Medium', 'Hard']
