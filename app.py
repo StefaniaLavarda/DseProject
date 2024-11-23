@@ -1,4 +1,6 @@
-""" app.py """
+""" 
+Runs the movie quiz app, generates questions, tracks answers, and displays results using Streamlit.
+"""
 
 import streamlit as st
 import numpy as np

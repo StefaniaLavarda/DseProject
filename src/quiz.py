@@ -1,5 +1,5 @@
 """ 
-Generate random movie quiz questions with multiple-choice answers
+Generate random movie quiz questions with multiple-choice answers.
 """
 
 import numpy as np
@@ -12,7 +12,7 @@ class Quiz:
         Parameters
         ----------
         data : pandas.DataFrame
-        A DataFrame containing the movie dataset
+        A DataFrame containing the movie dataset.
     """
     def __init__(self, data):
         """
