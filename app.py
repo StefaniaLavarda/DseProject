@@ -19,23 +19,24 @@ quiz = Quiz(movies_df)
 # Define scoring rules for each difficulty level
 score_by_difficulty = {'easy': 1, 'medium': 2, 'hard': 3}
 
+# Initialize a session state variable to track if the user wants to stop playing
 if 'stop_playing' not in st.session_state:
     st.session_state.stop_playing = False
 
-# If the user decided to stop playing, display a thank-you message and exit
+# If the user decided to stop playing, display a thank-you message and stop the app
 if st.session_state.stop_playing:
     st.title("Thank you for playing! 😄")
     st.stop()  # Stop the execution of the app
 
-# Streamlit app title and instructions
+# Set the app title and display initial instruction
 st.title("Movie Quiz Game 🎞️")
 st.write("Answer 10 multiple-choice questions about movies. Choose the correct option!")
 
 # Initialize session state variables if not already present
 if 'questions' not in st.session_state:
-    questions = [] # To store generated questions and their options
-    correct_answers = [] # To store correct answers for the questions
-    difficulties = [] # To store difficulty levels of each question
+    questions = [] # Store generated questions and their options
+    correct_answers = [] # Store correct answers for the questions
+    difficulties = [] # Store difficulty levels of each question
     
     # Generate 10 random quiz questions
     for i in range(10):
@@ -63,25 +64,25 @@ correct_answers = st.session_state.correct_answers
 user_answers = st.session_state.user_answers
 difficulties = st.session_state.difficulties
 
-# Display each question and options
+# Display each question along with its answer options
 for question_number, (question, options) in enumerate(questions, 1):
     st.subheader(f"Question {question_number}: {question}")
-    # Radio buttons for the user to select an answer
+    # Radio button for the user to select an answer
     user_answer = st.radio(
         f"Select your answer for Question {question_number}:", options)
     # Save the user's answer
     user_answers[question_number - 1] = user_answer
 
-# Add a "Submit Answers" button to calculate the score
+# Add a button to submit answers and calculate the score
 if st.button("Submit Answers"):
     score = 0 # Initialize the total score
-    total_correct_answers = 0 # Counter for correct answers
-    correct_answers_by_difficulty = {'easy': 0, 'medium': 0, 'hard': 0}
+    total_correct_answers = 0 # Count the number of correct answers
+    correct_answers_by_difficulty = {'easy': 0, 'medium': 0, 'hard': 0} # Track correct answers by difficulty
     
     # Feedback for each question
     st.subheader("Question Feedback")
     
-    # Evaluate answers and calculate score
+    # Evaluate the user's answers and calculate their score
     for i in range(10):
         question, options = questions[i]
         user_answer = user_answers[i]
@@ -94,10 +95,10 @@ if st.button("Submit Answers"):
             score += score_by_difficulty[difficulty]
             total_correct_answers += 1
             correct_answers_by_difficulty[difficulty] += 1
-            # Feedback for correct answer
+            # Display feedback for a correct answer
             st.write(f"**Question {i + 1}:** Correct ✅")
         else:
-            # Feedback for wrong answer
+            # Display feedback for an incorrect answer
             st.write(f"**Question {i + 1}:** Wrong ❌")
             st.markdown(f"- **Your answer:** {user_answer}")
             st.markdown(f"- **The correct answer was:** {correct_answer}")
@@ -114,7 +115,7 @@ if st.button("Submit Answers"):
     st.info(f"You answered {total_correct_answers} out of 10 questions correctly.")
     st.info(f"That's {correct_percentage}% correct answers!")
     
-    # Generate a bar chart for correct answers by difficulty
+    # Generate a bar chart showing correct answers by difficulty level
     difficulty_levels = ['Easy', 'Medium', 'Hard']
     correct_counts = [correct_answers_by_difficulty['easy'],
                   correct_answers_by_difficulty['medium'],
@@ -128,16 +129,16 @@ if st.button("Submit Answers"):
     ax.set_ylim(0, 10)
     ax.set_yticks(range(0, 11))
     
-    # Display the bar chart
+    # Display the bar chart in the app
     st.pyplot(fig)
     
-    # Mark quiz as completed
+    # Mark the quiz as completed in the session state
     st.session_state.quiz_completed = True
 
-# Show the "Play Again" button after the quiz is completed
+# Show "Play Again" and "Don't Play Again" options after the quiz is completed
 if st.session_state.quiz_completed:
     if st.button("Play again"):
-        st.session_state.clear()  # Reset session state variables
+        st.session_state.clear()  # Reset all session state variables
         st.rerun()  # Rerun the app to start a new quiz
     if st.button("Don't play again"):
         st.session_state.stop_playing = True

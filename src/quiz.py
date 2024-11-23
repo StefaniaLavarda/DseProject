@@ -1,19 +1,30 @@
-""" src/quiz.py """
+""" 
+Generate random movie quiz questions with multiple-choice answers
+"""
 
 import numpy as np
 
 class Quiz:
     """
-       A class for generating random questions, with four options, one of which 
-       is correct. Return the question, the correct answer and the options.
+        A class for generating random questions, with four options, one of which 
+        is correct. Return the question, the correct answer and the options.
+        
+        Parameters
+        ----------
+        data : pandas.DataFrame
+        A DataFrame containing the movie dataset
     """
     def __init__(self, data):
+        """
+        Initializes the Quiz class with the given dataset.
+        """
         self.data = data
   
     def generate_question(self, difficulty='easy'):
         """
             Generates a random quiz question based on the specified difficulty level.
         """
+        # Filter movies based on the difficulty level
         if difficulty == 'easy':
             filter_data = self.data[self.data['averageRating'] >= 7.5]
         elif difficulty == 'medium':
